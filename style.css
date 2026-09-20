@@ -1,0 +1,183 @@
+:root{
+  --navy:#0F1F38;
+  --navy-deep:#0A1628;
+  --navy-rule:#2A4468;
+  --cream:#F4EDDD;
+  --cream-dim:#DFD4BC;
+  --brass:#B4884B;
+  --ink:#12233C;
+  --ink-soft:#42556E;
+
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  color-scheme:light;
+}
+:root:not([data-theme="light"]){}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --cream:#EFE7D5;
+    --cream-dim:#D5C9AE;
+  }
+}
+:root[data-theme="dark"]{
+  --cream:#EFE7D5;
+  --cream-dim:#D5C9AE;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-behavior:smooth;scroll-padding-top:calc(64px + env(safe-area-inset-top,0px));-webkit-text-size-adjust:100%}
+body{
+  margin:0;
+  background:var(--cream);
+  color:var(--ink);
+  font-family:"IBM Plex Sans",system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif;
+  font-size:17px;
+  line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+}
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto}
+  *{animation:none!important;transition:none!important}
+}
+img{max-width:100%;display:block}
+
+/* ── top bar ─────────────────────────────────────────── */
+.bar{
+  position:fixed;left:0;right:0;top:0;z-index:50;
+  background:rgba(10,22,40,.94);
+  backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--navy-rule);
+  padding-top:env(safe-area-inset-top,0px);
+}
+.bar-in{
+  max-width:1180px;margin:0 auto;
+  display:flex;align-items:center;gap:1.5rem;
+  padding:0 1.25rem;height:64px;
+}
+.mark{
+  font-family:"Bodoni Moda",Georgia,serif;
+  color:var(--cream);font-size:1.15rem;letter-spacing:.02em;
+  text-decoration:none;white-space:nowrap;flex:none;
+}
+.mark span{color:var(--brass)}
+nav{overflow-x:auto;scrollbar-width:none;margin-left:auto}
+nav::-webkit-scrollbar{display:none}
+nav ul{display:flex;gap:.25rem;list-style:none;margin:0;padding:0}
+nav a{
+  display:block;padding:.45rem .7rem;border-radius:2px;
+  color:#B9C6D8;text-decoration:none;font-size:.88rem;white-space:nowrap;
+  border-bottom:2px solid transparent;
+}
+nav a:hover{color:var(--cream)}
+nav a.on{color:var(--cream);border-bottom-color:var(--brass)}
+a:focus-visible,button:focus-visible{outline:2px solid var(--brass);outline-offset:3px}
+
+/* ── flight strip: the vertical journey rail ─────────── */
+.rail{
+  position:fixed;left:26px;top:50%;transform:translateY(-50%);z-index:40;
+  display:none;flex-direction:column;gap:0;align-items:flex-start;
+}
+@media (min-width:1180px){.rail{display:flex}}
+.rail a{
+  display:flex;align-items:center;gap:.6rem;
+  text-decoration:none;color:inherit;padding:.3rem 0;
+  font-size:.74rem;letter-spacing:.04em;
+}
+.rail .tick{width:18px;height:1px;background:currentColor;opacity:.45;flex:none}
+.rail .txt{opacity:0;transform:translateX(-4px);transition:opacity .18s ease}
+.rail a:hover .txt,.rail a.on .txt{opacity:.8}
+.rail a.on{color:var(--brass)}
+.rail a.on .tick{width:30px;height:2px;opacity:1}
+.rail .stem{width:1px;height:14px;background:currentColor;opacity:.3;margin-left:8px}
+section.dark ~ .rail{color:var(--cream)}
+
+/* ── sections ────────────────────────────────────────── */
+section{padding:6rem 1.25rem}
+.wrap{max-width:1080px;margin:0 auto}
+.light{background:var(--cream);color:var(--ink)}
+.dark{background:var(--navy);color:var(--cream)}
+.dark .lede,.dark p{color:#D9E0EA}
+
+h1,h2,h3{font-family:"Bodoni Moda",Georgia,serif;font-weight:400;margin:0}
+h2{font-size:clamp(2rem,4.6vw,3.1rem);line-height:1.08;letter-spacing:-.01em}
+h3{font-size:1.15rem;font-family:"IBM Plex Sans",sans-serif;font-weight:600;letter-spacing:.005em}
+p{margin:0 0 1.05rem;max-width:62ch}
+.lede{font-size:1.08rem;color:var(--ink-soft)}
+
+.head{display:flex;align-items:baseline;gap:1rem;margin-bottom:2.5rem}
+.head .yr{
+  font-family:"Bodoni Moda",Georgia,serif;font-size:.95rem;
+  color:var(--brass);flex:none;padding-top:.2rem;
+}
+.head .bar-line{flex:1;height:1px;background:currentColor;opacity:.18}
+
+.cols{display:grid;grid-template-columns:1fr;gap:2.5rem}
+@media (min-width:860px){
+  .cols{grid-template-columns:1.05fr .95fr;gap:3.5rem;align-items:start}
+  .flip .media{order:-1}
+}
+
+/* ── photo slots ─────────────────────────────────────── */
+.frame{
+  width:100%;aspect-ratio:4/3;border:1px solid var(--cream-dim);
+  background:
+    repeating-linear-gradient(45deg,rgba(18,35,60,.035) 0 10px,transparent 10px 20px);
+  display:flex;align-items:center;justify-content:center;
+  color:var(--ink-soft);font-size:.8rem;text-align:center;padding:1rem;
+  object-fit:cover;
+}
+.dark .frame{border-color:var(--navy-rule);color:#93A4BB;
+  background:repeating-linear-gradient(45deg,rgba(244,237,221,.05) 0 10px,transparent 10px 20px);}
+.frame.tall{aspect-ratio:3/4}
+.frame.wide{aspect-ratio:16/9}
+figure{margin:0}
+figcaption{font-size:.8rem;color:var(--ink-soft);margin-top:.5rem;line-height:1.5}
+.dark figcaption{color:#93A4BB}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.stack{display:grid;gap:1.5rem}
+
+/* ── list blocks ─────────────────────────────────────── */
+.entries{display:grid;gap:1.75rem;margin-top:.5rem}
+.entry{border-left:2px solid var(--brass);padding-left:1.1rem}
+.entry .meta{font-size:.85rem;color:var(--ink-soft);margin:.15rem 0 .5rem}
+.dark .entry .meta{color:#9FB0C6}
+.entry p{margin-bottom:.4rem;font-size:.97rem}
+ul.plain{margin:.4rem 0 0;padding-left:1.1rem;max-width:62ch}
+ul.plain li{margin-bottom:.35rem;font-size:.97rem}
+
+.chips{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:1.25rem;padding:0;list-style:none}
+.chips li{
+  font-size:.82rem;padding:.3rem .65rem;
+  border:1px solid var(--cream-dim);color:var(--ink-soft);
+}
+.dark .chips li{border-color:var(--navy-rule);color:#B9C6D8}
+
+/* ── hero ────────────────────────────────────────────── */
+#top{
+  min-height:100svh;display:flex;align-items:flex-end;
+  padding:8rem 1.25rem 3.5rem;position:relative;overflow:hidden;
+  background:var(--navy-deep);
+}
+.horizon{position:absolute;left:0;right:0;bottom:0;height:56%;pointer-events:none;opacity:.5}
+.hero-name{
+  font-family:"Bodoni Moda",Georgia,serif;
+  font-size:clamp(3.4rem,13vw,9rem);line-height:.86;letter-spacing:-.02em;
+  color:var(--cream);margin:0 0 1.5rem;
+}
+.hero-sub{max-width:44ch;color:#C7D2E0;font-size:1.05rem;margin-bottom:2rem}
+.hero-meta{display:flex;flex-wrap:wrap;gap:1.5rem;font-size:.86rem;color:#8FA2BA}
+.hero-meta b{color:var(--brass);font-weight:500}
+.anim{opacity:0;transform:translateY(12px);animation:rise .9s cubic-bezier(.2,.7,.3,1) forwards}
+.anim:nth-child(2){animation-delay:.12s}
+.anim:nth-child(3){animation-delay:.22s}
+.anim:nth-child(4){animation-delay:.32s}
+@keyframes rise{to{opacity:1;transform:none}}
+@media (prefers-reduced-motion: reduce){.anim{opacity:1;transform:none;animation:none}}
+
+/* ── footer ──────────────────────────────────────────── */
+footer{background:var(--navy-deep);color:var(--cream);padding:5rem 1.25rem 4rem}
+footer h2{margin-bottom:1.25rem}
+.links{display:flex;flex-wrap:wrap;gap:1.75rem;margin-top:1.75rem}
+.links a{color:var(--cream);text-decoration:none;border-bottom:1px solid var(--brass);padding-bottom:2px;font-size:.95rem}
+.links a:hover{color:var(--brass)}
+.colophon{margin-top:3.5rem;font-size:.8rem;color:#7C8EA6}
