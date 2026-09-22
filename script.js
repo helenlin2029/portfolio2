@@ -1,5 +1,5 @@
 (function(){
-  var ids = ["growing-up","academics","competitions","now","beyond","projects","work"];
+  var ids = ["growing-up","academics","beyond","projects","hobbies"];
   var links = Array.prototype.slice.call(document.querySelectorAll('nav a, .rail a'));
   var rail = document.querySelector('.rail');
 

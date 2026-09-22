@@ -8,6 +8,10 @@
   --ink:#12233C;
   --ink-soft:#42556E;
 
+  /* page width + side margins — lower --gutter or raise --page to push text closer to the edges */
+  --page:1320px;
+  --gutter:clamp(1.25rem,4vw,3.5rem);
+
   box-sizing:border-box;
   padding-top:env(safe-area-inset-top,0px);
   padding-bottom:env(safe-area-inset-bottom,0px);
@@ -50,9 +54,9 @@ img{max-width:100%;display:block}
   padding-top:env(safe-area-inset-top,0px);
 }
 .bar-in{
-  max-width:1180px;margin:0 auto;
+  max-width:calc(var(--page) + 2 * var(--gutter));margin:0 auto;
   display:flex;align-items:center;gap:1.5rem;
-  padding:0 1.25rem;height:64px;
+  padding:0 var(--gutter);height:64px;
 }
 .mark{
   font-family:"Bodoni Moda",Georgia,serif;
@@ -77,7 +81,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--brass);outline-offs
   position:fixed;left:26px;top:50%;transform:translateY(-50%);z-index:40;
   display:none;flex-direction:column;gap:0;align-items:flex-start;
 }
-@media (min-width:1180px){.rail{display:flex}}
+@media (min-width:1640px){.rail{display:flex}}
 .rail a{
   display:flex;align-items:center;gap:.6rem;
   text-decoration:none;color:inherit;padding:.3rem 0;
@@ -92,8 +96,8 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--brass);outline-offs
 section.dark ~ .rail{color:var(--cream)}
 
 /* ── sections ────────────────────────────────────────── */
-section{padding:6rem 1.25rem}
-.wrap{max-width:1080px;margin:0 auto}
+section{padding:6rem var(--gutter)}
+.wrap{max-width:var(--page);margin:0 auto}
 .light{background:var(--cream);color:var(--ink)}
 .dark{background:var(--navy);color:var(--cream)}
 .dark .lede,.dark p{color:#D9E0EA}
@@ -101,7 +105,7 @@ section{padding:6rem 1.25rem}
 h1,h2,h3{font-family:"Bodoni Moda",Georgia,serif;font-weight:400;margin:0}
 h2{font-size:clamp(2rem,4.6vw,3.1rem);line-height:1.08;letter-spacing:-.01em}
 h3{font-size:1.15rem;font-family:"IBM Plex Sans",sans-serif;font-weight:600;letter-spacing:.005em}
-p{margin:0 0 1.05rem;max-width:62ch}
+p{margin:0 0 1.05rem;max-width:74ch}
 .lede{font-size:1.08rem;color:var(--ink-soft)}
 
 .head{display:flex;align-items:baseline;gap:1rem;margin-bottom:2.5rem}
@@ -113,7 +117,8 @@ p{margin:0 0 1.05rem;max-width:62ch}
 
 .cols{display:grid;grid-template-columns:1fr;gap:2.5rem}
 @media (min-width:860px){
-  .cols{grid-template-columns:1.05fr .95fr;gap:3.5rem;align-items:start}
+  .cols{grid-template-columns:1.2fr .8fr;gap:4rem;align-items:start}
+  .flip{grid-template-columns:.8fr 1.2fr}
   .flip .media{order:-1}
 }
 
@@ -130,6 +135,15 @@ p{margin:0 0 1.05rem;max-width:62ch}
   background:repeating-linear-gradient(45deg,rgba(244,237,221,.05) 0 10px,transparent 10px 20px);}
 .frame.tall{aspect-ratio:3/4}
 .frame.wide{aspect-ratio:16/9}
+.frame.long{aspect-ratio:2/3}   /* extra-tall portrait — change to 3/1 for a long horizontal strip */
+/* square: half the width of frame wide. Two squares in a grid2 row, plus the gap,
+   line up exactly with a frame wide above or below them. */
+.frame.square{aspect-ratio:1/1;width:calc(50% - .5rem)}
+.grid2 .frame.square{width:100%}   /* full cell width inside a grid2 row, with or without a <figure> */
+/* real photos fill their frame edge to edge, cropping to the frame's shape */
+img.frame{padding:0;background:none}
+.frame:has(> img){padding:0;background:none;overflow:hidden}
+.frame > img{width:100%;height:100%;object-fit:cover;display:block}
 figure{margin:0}
 figcaption{font-size:.8rem;color:var(--ink-soft);margin-top:.5rem;line-height:1.5}
 .dark figcaption{color:#93A4BB}
@@ -142,7 +156,7 @@ figcaption{font-size:.8rem;color:var(--ink-soft);margin-top:.5rem;line-height:1.
 .entry .meta{font-size:.85rem;color:var(--ink-soft);margin:.15rem 0 .5rem}
 .dark .entry .meta{color:#9FB0C6}
 .entry p{margin-bottom:.4rem;font-size:.97rem}
-ul.plain{margin:.4rem 0 0;padding-left:1.1rem;max-width:62ch}
+ul.plain{margin:.4rem 0 0;padding-left:1.1rem;max-width:74ch}
 ul.plain li{margin-bottom:.35rem;font-size:.97rem}
 
 .chips{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:1.25rem;padding:0;list-style:none}
@@ -155,16 +169,17 @@ ul.plain li{margin-bottom:.35rem;font-size:.97rem}
 /* ── hero ────────────────────────────────────────────── */
 #top{
   min-height:100svh;display:flex;align-items:flex-end;
-  padding:8rem 1.25rem 3.5rem;position:relative;overflow:hidden;
+  padding:8rem var(--gutter) 3.5rem;position:relative;overflow:hidden;
   background:var(--navy-deep);
 }
+#top .wrap{width:100%}
 .horizon{position:absolute;left:0;right:0;bottom:0;height:56%;pointer-events:none;opacity:.5}
 .hero-name{
   font-family:"Bodoni Moda",Georgia,serif;
   font-size:clamp(3.4rem,13vw,9rem);line-height:.86;letter-spacing:-.02em;
   color:var(--cream);margin:0 0 1.5rem;
 }
-.hero-sub{max-width:44ch;color:#C7D2E0;font-size:1.05rem;margin-bottom:2rem}
+.hero-sub{max-width:54ch;color:#C7D2E0;font-size:1.05rem;margin-bottom:2rem}
 .hero-meta{display:flex;flex-wrap:wrap;gap:1.5rem;font-size:.86rem;color:#8FA2BA}
 .hero-meta b{color:var(--brass);font-weight:500}
 .anim{opacity:0;transform:translateY(12px);animation:rise .9s cubic-bezier(.2,.7,.3,1) forwards}
@@ -175,7 +190,7 @@ ul.plain li{margin-bottom:.35rem;font-size:.97rem}
 @media (prefers-reduced-motion: reduce){.anim{opacity:1;transform:none;animation:none}}
 
 /* ── footer ──────────────────────────────────────────── */
-footer{background:var(--navy-deep);color:var(--cream);padding:5rem 1.25rem 4rem}
+footer{background:var(--navy-deep);color:var(--cream);padding:5rem var(--gutter) 4rem;border-top:1px solid var(--brass)}
 footer h2{margin-bottom:1.25rem}
 .links{display:flex;flex-wrap:wrap;gap:1.75rem;margin-top:1.75rem}
 .links a{color:var(--cream);text-decoration:none;border-bottom:1px solid var(--brass);padding-bottom:2px;font-size:.95rem}
